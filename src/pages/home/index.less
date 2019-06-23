@@ -1,0 +1,20 @@
+.box{
+    transform: matrix(1, 0, 0, 1, 0, 0);
+}
+.title{
+    animation: show1 1s;
+    animation-fill-mode: forwards;
+}
+.content{
+    animation: show2 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 400ms;
+}
+@keyframes show1{
+    0% {opacity: 0;transform: translateY(20%)}
+    100% {opacity: 1}
+}
+@keyframes show2{
+    0% {opacity: 0}
+    100% {opacity: 1}
+}

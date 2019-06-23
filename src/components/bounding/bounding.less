@@ -1,0 +1,150 @@
+@snap: cubic-bezier(0,1,.5,1);
+@easeOutCubic: cubic-bezier(.215,.61,.355,1);
+@easeInOutCubic: cubic-bezier(.645,.045,.355,1);
+@easeInCirc: cubic-bezier(.6,.04,.98,.335);
+@easeOutCirc: cubic-bezier(.075,.82,.165,1);
+@easeInOutCirc: cubic-bezier(.785,.135,.15,.86);
+@easeInExpo: cubic-bezier(.95,.05,.795,.035);
+@easeOutExpo: cubic-bezier(.19,1,.22,1);
+@easeInOutExpo: cubic-bezier(1,0,0,1);
+@easeInQuad: cubic-bezier(.55,.085,.68,.53);
+@easeOutQuad: cubic-bezier(.25,.46,.45,.94);
+@easeInOutQuad: cubic-bezier(.455,.03,.515,.955);
+@easeInQuart: cubic-bezier(.895,.03,.685,.22);
+@easeOutQuart: cubic-bezier(.165,.84,.44,1);
+@easeInOutQuart: cubic-bezier(.77,0,.175,1);
+@easeInQuint: cubic-bezier(.755,.05,.855,.06);
+@easeOutQuint: cubic-bezier(.23,1,.32,1);
+@easeInOutQuint: cubic-bezier(.86,0,.07,1);
+@easeInSine: cubic-bezier(.47,0,.745,.715);
+@easeOutSine: cubic-bezier(.39,.575,.565,1);
+@easeInOutSine: cubic-bezier(.445,.05,.55,.95);
+@easeInBack: cubic-bezier(.6,-.28,.735,.045);
+@easeOutBack: cubic-bezier(.175, .885,.32,1.275);
+@easeInOutBack: cubic-bezier(.68,-.55,.265,1.55);
+
+@boxShowTime: 500ms;
+@boxHideTime: 400ms;
+@borderShowtime: 200ms;
+@borderMoveTime: 1000ms;
+.boxshow{
+    animation: show1 @boxShowTime @easeInQuint;
+    animation-fill-mode: forwards;
+}
+.boxhide{
+    animation: hide1 @boxHideTime @easeInOutQuad;
+    animation-fill-mode: forwards;
+}
+.border-show{
+    animation: show2 @borderShowtime @easeInExpo;
+    animation-fill-mode: forwards;
+}
+.top-border-move{
+    animation: upmove @borderMoveTime @easeInOutQuint;
+    animation-fill-mode: forwards;
+}
+.bottom-border-move{
+    animation: bottommove @borderMoveTime @easeInOutQuint;
+    animation-fill-mode: forwards;
+}
+.boundingBG{
+    animation: show3 1.5s @easeOutQuad;
+    animation-fill-mode: forwards;
+}
+.boundingBar{
+    animation: show2 400ms @easeInCirc;
+    animation-fill-mode: forwards;
+}
+.boundingContent{
+    animation: show4 400ms @easeInCirc;
+    animation-fill-mode: forwards;
+}
+.boundingGlowTop{
+    animation: show2 500ms @easeInCirc;
+    animation-fill-mode: forwards;
+}
+.boundingGlowBottom{
+    animation: show2 500ms @easeInCirc;
+    animation-fill-mode: forwards;
+}
+.boundingTitle{
+    animation: show2 500ms @easeInCirc;
+    animation-fill-mode: forwards;
+}
+.mask{
+    mask:url("#projects-mask");
+}
+
+@keyframes show1{
+    0% {opacity: 0; visibility: visible;}
+    100% {opacity: 1; }
+}
+@keyframes hide1{
+    0% {opacity: 1;}
+    100% {opacity: 0; visibility: hidden}
+}
+@keyframes show2{
+    0% {opacity: 0;}
+    100% {opacity: 1; filter: none;}
+}
+@keyframes upmove{
+    0%{opacity: 1; filter:none}
+    100% {transform: translateY(-158px); filter:none; opacity: 1;}
+}
+@keyframes bottommove{
+    0%{opacity: 1; filter:none}
+    100% {transform: translateY(155px); filter:none; opacity: 1;}
+}
+@keyframes show3{
+    0% {}
+    100% {opacity: .4;}
+}
+@keyframes show4{
+    0% {opacity: 0;overflow: hidden;visibility: hidden;}
+    100% {opacity: 1; overflow: hidden;visibility: visible;}
+}
+
+.boundingContentOut{
+    animation: hide2 250ms @easeOutQuint;
+    animation-fill-mode: forwards;
+}
+.boundingBarOut,.boundingTitleOut,.boundingGlowTopOut,.boundingGlowBottomOut{
+    animation: hide2 300ms @easeOutQuad;
+    animation-fill-mode: forwards;
+}
+.boundingBGOut{
+    animation: hide2 400ms @easeInOutQuint;
+    animation-fill-mode: forwards;
+}
+.boundingTopMoveOut{
+    animation: upmove2 400ms @easeInOutQuint;
+    animation-fill-mode: forwards;
+}
+.boundingBottomMoveOut{
+    animation: bottommove2 400ms @easeInOutQuint;
+    animation-fill-mode: forwards;
+}
+.borderHide{
+    animation: hide2 400ms @easeOutExpo;
+    animation-fill-mode: forwards;
+}
+.boxshow2{
+    animation: show1 500ms @easeInQuint;
+    animation-fill-mode: forwards;
+}
+.boxhide2{
+    animation: hide1 400ms @easeInOutQuad;
+    animation-fill-mode: forwards;
+}
+@keyframes hide2{
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+@keyframes upmove2{
+    0%{opacity: 1; filter:none; transform: translateY(-158px);}
+    100% {transform: translateY(0px); filter:none; opacity: 1;}
+}
+@keyframes bottommove2{
+    0%{opacity: 1; filter:none; transform: translateY(155px);}
+    100% {transform: translateY(0px); filter:none; opacity: 1;}
+}

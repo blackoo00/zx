@@ -1,0 +1,16 @@
+.show{
+    animation: show 250ms;
+    animation-fill-mode: forwards;
+}
+@keyframes show{
+    0% {visibility: visible;opacity: 0;}
+    100% {visibility: visible;opacity: .5;}
+}
+.hide{
+    animation: hide 150ms;
+    animation-fill-mode: forwards;
+}
+@keyframes hide{
+    0% {visibility: visible;opacity: .5;}
+    100% {visibility: hidden;opacity: 0;}
+}
