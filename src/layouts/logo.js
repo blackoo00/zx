@@ -3,8 +3,13 @@ import logo2 from '../assets/images/logo_text-3228226b048d5a3d12382f3233c93456.p
 import logo3 from '../assets/images/logo-glint-598fc2791328b61f0c0ea7f307fcdbad.png'
 import styles from './index.less'
 import {PureComponent} from 'react'
+import {connect} from 'dva'
 
-export default class extends PureComponent {
+export default
+@connect(({router}) => ({
+    pathname:router.location.pathname
+}))
+class extends PureComponent {
     constructor(props){
         super(props)
         this.state = {
@@ -28,6 +33,8 @@ export default class extends PureComponent {
     }
     render(){
         const {show,glint} = this.state
+        const {pathname} = this.props
+        if(pathname.includes('/portfolio/sherclub')) return null
         return (
             <a id="home-link" className={show ? styles.logo : ''} href="/remove_session" title="Ferris Rafauli | Home" data-ajax="false">
             {/* <a id="home-link" className={styles.logo} href="/remove_session" title="Ferris Rafauli | Home" data-ajax="false"> */}

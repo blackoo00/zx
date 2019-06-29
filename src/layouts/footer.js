@@ -1,50 +1,58 @@
 import line from '../assets/images/whole_line-5c34ee2c49313ba3924f7431ed856612.png'
 import styles from './index.less'
-import Link from 'umi/link'
 import {PureComponent} from 'react'
 import {connect} from 'dva'
 import router from 'umi/router'
+import {noPageAn} from '@/config'
 
-const noPageAn = ['/','/philosophy','/ferris-rafauli']
 export default
 @connect(({global,router}) => ({
     pageChange:global.pageChange,
-    pathname:router.location.pathname
+    pathname:router.location.pathname,
+    pageAnimation:global.pageAnimation,
+    linkUrl:global.linkUrl,
+    loading:global.loading,
+    scale:global.scale
 }))
 class extends PureComponent{
     url = ''
+    componentDidMount(){
+    }
     componentDidUpdate(prevProps, prevState, snapshot){
-        // console.log(prevProps)
-        // console.log(this.props)
-        // const {pageChange} = this.props
-        // const prevPageChange = prevProps.pageChange
-        // if(!pageChange && pageChange !== prevPageChange){
-        //     console.log(this.url)
-        //     router.push(this.url)
-        // }
+        const {dispatch,pageChange} = this.props
+        if(pageChange){
+            if(prevProps.pathname !== this.pathname){
+                dispatch({
+                    type:'global/pageChange',
+                    payload:false
+                })
+            }
+        }
+        if(!this.props.pageAnimation && prevProps.pageAnimation){
+            const url = this.url
+            if(this.url){
+                this.url = ''
+                router.push(url)
+            }
+        }
     }
     link = (url) => (e) => {
         e.preventDefault()
-        const {dispatch,pathname} = this.props
-        if(noPageAn.includes(pathname)){
-            router.push(url)
-            return
-        }else{
-            dispatch({
-                type:'global/pageChange',
-                payload:true
-            })
-            setTimeout(() => {
-                router.push(url)
-            },1000)
-        }
+        const {dispatch,loading,pathname} = this.props
+        if(loading) return
+        if(url === pathname) return
+        dispatch({
+            type:'global/pageChange',
+            payload:true
+        })
+        this.url = url
     }
     render(){
-        const {pathname} = this.props
-        if(pathname === "/portfolio/sherclub") return null
+        const {pathname,scale} = this.props
+        if(pathname.includes("/portfolio/sherclub")) return null
         return(
             <>
-                <div id="menu" className={styles.footer}>
+                <div id="menu" className={styles.footer} style={{transform:'scale('+scale+')'}}>
                     <a id="menu-button"></a>
                     <div id="menu-mask">
                         <ul id="menu-lines">
@@ -61,9 +69,9 @@ class extends PureComponent{
                             <li id="m1" className="menu-li"><a onClick={this.link('/')} className="menu-a">Home</a></li>
                             <li id="m2" className="menu-li"><a onClick={this.link('/ferris-rafauli')} className="menu-a">Ferris Rafauli</a></li>
                             <li id="m3" className="menu-li"><a onClick={this.link('/portfolio')} className="menu-a">Portfolio</a></li>
-                            <li id="m4" className="menu-li"><a onClick={this.link('philosophy')} className="menu-a">Philosophy</a></li>
+                            <li id="m4" className="menu-li"><a onClick={this.link('/philosophy')} className="menu-a">Philosophy</a></li>
                             <li id="m5" className="menu-li"><a onClick={this.link('/careers')} className="menu-a">Careers</a></li>
-                            <li id="m6" className="menu-li"><a onClick={this.link()} className="menu-a">Contact</a></li>
+                            <li id="m6" className="menu-li"><a onClick={this.link('/connect')} className="menu-a">Contact</a></li>
                         </ul>
                     </div>
                 </div>

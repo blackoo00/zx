@@ -2,13 +2,34 @@ export default{
     namespace:'global',
     state: {
         pageChange:false,
-        scale:getScale()
+        pageAnimation:false,
+        loading:true,
+        scale:getScale(),
+        linkUrl:''
     },
     reducers:{
         pageChange(state,{payload}){
             return {
                 ...state,
-                pageChange:payload
+                pageChange:payload,
+            }
+        },
+        handlePageAnimation(state,{payload}){
+            return {
+                ...state,
+                pageAnimation:payload,
+            }
+        },
+        handleLoading(state,{payload}){
+            return {
+                ...state,
+                loading:payload
+            }
+        },
+        handleLinkUrl(state,{payload}){
+            return {
+                ...state,
+                linkUrl:payload
             }
         }
     }

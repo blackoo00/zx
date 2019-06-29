@@ -5,9 +5,37 @@ import th from '@/assets/images/360.jpg'
 import turn from '@/assets/images/turn_key.jpg'
 import title from '@/assets/images/ferris_rafauli.png'
 import router from 'umi/router'
+import {connect} from 'dva'
 
-export default class extends PureComponent{
+export default 
+@connect(({global}) => ({
+    loading:global.loading,
+    pageChange:global.pageChange
+}))
+class extends PureComponent{
     componentDidMount(){
+        const {dispatch} = this.props
+        setTimeout(() => {
+            dispatch({
+                type:'global/handleLoading',
+                payload:false
+            })
+            this.pageIn()
+        },1000)
+    }
+    componentDidUpdate(prevProps){
+        if(this.props.pageChange){
+          this.pageOut()
+        }
+      }
+    link = (url) => (e) => {
+        e.preventDefault()
+        this.pageOut()
+        setTimeout(() => {
+            router.push(url)
+        },1300)
+    }
+    pageIn = () => {
         const title = document.getElementsByClassName('page-title-section')[0]
         const content = document.getElementsByClassName('content')[0]
         const link = document.getElementsByClassName('philosophy-type-link')
@@ -18,17 +46,15 @@ export default class extends PureComponent{
             link[1].style = 'transition:opacity 4s;opacity: 1'
         },800)
     }
-    link = (url) => (e) => {
-        e.preventDefault()
+    pageOut = () => {
         const title = document.getElementsByClassName('page-title-section')[0]
         const content = document.getElementsByClassName('content')[0]
         title.style = 'transition:opacity 1s;opacity: 0'
         content.style = 'transition:all 1.5s;opacity: 0;transform:translateY(100px)'
-        setTimeout(() => {
-            router.push(url)
-        },1300)
     }
     render(){
+        const {loading} = this.props
+        if(loading) return null
         return(
             <div id="ferris-rafauli" className="philosophy page">
             <div className="static bounding-box">
@@ -42,7 +68,7 @@ export default class extends PureComponent{
                     </h1>
                 </div>
                 <div className="content">
-                    <a className="philosophy-type-link" id="design-and-architect-link" href="#" onClick={this.link('/philosophy/the-art-is-the-design')}>
+                    <a className="philosophy-type-link" id="design-and-architect-link" href="#" onClick={this.link('/ferris-rafauli/designer-and-builder')}>
                         <div className="fill block">
                             <span className="fill front face">
                                     <img alt='' className="fill" src={ferris}/>
@@ -52,7 +78,7 @@ export default class extends PureComponent{
                             </span>
                         </div>
                     </a>
-                    <a className="philosophy-type-link" id="execute-and-build-link"  onClick={this.link("/philosophy/the-science-is-the-build")}>
+                    <a className="philosophy-type-link" id="execute-and-build-link"  onClick={this.link("/ferris-rafauli/360-turn-key")}>
                         <div className="fill block">
                             <span className="fill front face">
                                     <img alt='' className="fill" src={th}/>

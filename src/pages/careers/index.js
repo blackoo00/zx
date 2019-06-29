@@ -4,15 +4,30 @@ import {connect} from 'dva'
 import Bound from '@/components/bounding/'
 
 export default
-@connect(({global}) => ({animation:global.animation}))
+@connect(({global}) => ({
+    loading:global.loading
+}))
 class extends PureComponent {
+    componentDidMount(){
+        const {dispatch} = this.props
+        setTimeout(() => {
+            dispatch({
+                type:'global/handleLoading',
+                payload:false
+            })
+        },1000)
+    }
     finish = () => {
-        document.getElementsByClassName('title-container')[0].classList.add(bstyles.boundingTitle)
+        // document.getElementsByClassName('title-container')[0].classList.add(bstyles.boundingTitle)
+        const title = document.getElementsByClassName('title-container')[0]
+        title.style = 'opacity:1;filter:none;transition:opacity 1s'
     }
     end = () => {
         document.getElementsByClassName('title-container')[0].classList.add(bstyles.boundingTitleOut)
     }
     render() {
+        const {loading} = this.props
+        if(loading) return null
         return (
             <div id="careers" className="careers page">
                 <Bound finish = {this.finish} end={this.end}>

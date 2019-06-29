@@ -4,19 +4,28 @@ import careersBg from '@/assets/images/careers.jpg'
 import portfolioBg from '@/assets/images/portfolio_new.jpg'
 import artBg from '@/assets/images/execute_and_build.jpg'
 import designBg from '@/assets/images/design_and_architect.jpg'
+import turnBg from '@/assets/images/turn-key.jpg'
 import bgVideo from '../assets/videos/home1.mp4'
 import {connect} from 'dva'
+import config from '@/config.js'
 
-const hasVideo = ['/','/philosophy','/ferris-rafauli']
+const {noAnPage} = config
+const hasVideo = noAnPage 
 const bgs = {
     '/careers':careersBg,
     '/portfolio':portfolioBg,
     '/philosophy/the-art-is-the-design':artBg,
-    '/philosophy/the-science-is-the-build':designBg
+    '/philosophy/the-science-is-the-build':designBg,
+    '/ferris-rafauli/designer-and-builder':artBg,
+    'ferris-rafauli/360-turn-key':turnBg,
 }
 
 export default
-@connect(({router}) => ({pathname:router.location.pathname}))
+@connect(({router,global}) => ({
+    pathname:router.location.pathname,
+    pageChange:global.pageChange,
+    loading:global.loading
+}))
 class extends PureComponent {
     constructor(props) {
         super(props)
@@ -34,24 +43,38 @@ class extends PureComponent {
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.pathname != this.props.pathname){
-            let bg = bg
-            let videoshow = false
-            const pathname = this.props.pathname
-            if(hasVideo.includes(pathname)){
-                videoshow = true
-            }else{
-                bg = bgs[pathname]
-            }
+        if(this.state.videoOver) return
+        const {pathname,pageChange} = this.props
+        if(pageChange){
+            this.bgOut()
             this.setState({
-                ...prevState,
-                pathname:pathname,
-                bg:bg,
-                videoshow:videoshow
+                bg:false,
+                videoshow:false
             })
+        }else{
+            if(prevProps.pathname !== this.props.pathname){//防止同个页面多次修改state
+                this.bgIn()
+                this.setState({
+                    bg:hasVideo.includes(pathname) ? bg : bgs[pathname],
+                    videoshow:hasVideo.includes(pathname)
+                })
+            }
         }
     }
+    bgOut = () => {
+        setTimeout(() => {
+            const bgWrap = document.getElementById('page-bg')
+            bgWrap.style = 'opacity: 0; left: 0px; transition:opacity 1s'
+        },100)
+    }
+    bgIn = () => {
+        setTimeout(() => {
+            const bgWrap = document.getElementById('page-bg')
+            bgWrap.style = 'opacity: 1; left: 0px; transition:opacity 4s'
+        },100)
+    }
     componentDidMount() {
+        this.bgIn()
         const _this = this
         window.onresize = function () {
             const data = _this.adaptBg()
@@ -117,13 +140,14 @@ class extends PureComponent {
     }
     render() {
         const { videoshow,bg, videoOver, width, height, marginLeft, marginTop, vWidth, vHeight, vMarginLeft, vMarginTop } = this.state
-        const { show = true } = this.props
+        const { show = true, loading } = this.props
         if(!show) return null
+        if(loading) return null
         return (
             <>
-                <div id="page-bg" style={{ opacity: 1, left: '0px' }}>
-                    <img src={bg} className="page-bg" alt="Home" title="Home"
-                        style={{ height: height, marginLeft: marginLeft, marginTop: marginTop, width: width, opacity: 1 }} />
+                <div id="page-bg">
+                    {bg ? <img src={bg} className="page-bg" alt="Home" title="Home"
+                        style={{ height: height, marginLeft: marginLeft, marginTop: marginTop, width: width, opacity: 1 }} /> : null}
                     {videoshow ? <video id="home-video" style={{ height: vHeight, marginLeft: vMarginLeft, marginTop: vMarginTop, width: vWidth, opacity: videoOver ? 0 : 1 }} autoPlay muted>
                         <source src={bgVideo} type="video/mp4" />
                         您的浏览器不支持Video标签。

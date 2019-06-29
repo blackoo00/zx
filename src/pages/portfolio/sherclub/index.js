@@ -1,8 +1,11 @@
 import { PureComponent } from 'react'
 import pic from '@/assets/images/test.jpeg'
 import router from 'umi/router'
+import {connect} from 'dva'
 
-export default class extends PureComponent {
+export default
+@connect()
+class extends PureComponent {
     x = 0
     constructor(props) {
         super(props)
@@ -23,6 +26,17 @@ export default class extends PureComponent {
         }
     }
     componentDidMount(){
+        const {dispatch} = this.props
+        const _this = this
+        setTimeout(() => {
+            dispatch({
+                type:'global/handleLoading',
+                payload:false
+            })
+            _this.pageIn()
+        },1000)
+    }
+    pageIn = () => {
         setTimeout(() => {
             const lis = document.getElementsByClassName('full-gallery-image')
             let width = 0
@@ -127,7 +141,7 @@ export default class extends PureComponent {
                     <div className="full-gallery-sly gallery-images" style={{ overflow: 'hidden' }}>
                         <ul className="full-gallery-images" id="sherclubul">
                             {list.map(item => (
-                                <li className={`full-gallery-image ${item.status}`}>
+                                <li key={item.id} className={`full-gallery-image ${item.status}`}>
                                     <img alt='' className="full-gallery-img" src={item.src} data-src={item.src} />
                                     <div className="full-gallery-img-guard"></div>
                                 </li>

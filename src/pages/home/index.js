@@ -4,27 +4,39 @@ import {PureComponent} from 'react'
 import {connect} from 'dva'
 
 export default
-@connect(({global}) => ({animation:global.animation}))
+@connect(({global,router}) => ({
+  pageChange:global.pageChange,
+  loading:global.loading,
+  pathname:router.location.pathname
+}))
 class extends PureComponent {
   componentDidMount() {
-    const {animation} = this.props
-    // this.pageInit(animation)
-    document.getElementsByClassName('home-title')[0].classList.add(styles.title)
-    document.getElementsByClassName('home-content')[0].classList.add(styles.content)
+    const {dispatch} = this.props
+    setTimeout(() => {
+      dispatch({
+        type:'global/handleLoading',
+        payload:false
+      })
+      this.pageIn()
+    },1000)
   }
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   const {animation} = this.props
-  //   this.pageInit(animation)
-  // }
-  // pageInit = (animation) => {
-  //   if(!animation){
-  //       document.getElementsByClassName('home-title')[0].classList.add(styles.title)
-  //       document.getElementsByClassName('home-content')[0].classList.add(styles.content)
-  //   }else{
-  //       // document.getElementsByClassName('home-title')[0].classList.remove(styles.title)
-  //       // document.getElementsByClassName('home-content')[0].classList.remove(styles.content)
-  //   }
-  // }
+  componentDidUpdate(prevProps){
+    if(this.props.pageChange){
+      this.pageOut()
+    }
+  }
+  pageIn = () => {
+    setTimeout(() => {
+      document.getElementsByClassName('home-title')[0].style = 'opacity: 1;transform: translateY(-20%);transition:all 1s'
+      document.getElementsByClassName('home-content')[0].style = 'opacity: 1;transition:all 3s'
+    })
+  }
+  pageOut = () => {
+    setTimeout(() => {
+      document.getElementsByClassName('home-title')[0].style = 'opacity: 0;transform: translateY(50%);transition:all 1s'
+      document.getElementsByClassName('home-content')[0].style = 'opacity: 0;transform: translateY(50%);transition:all 1s'
+    })
+  }
   render(){
     return (
       <>

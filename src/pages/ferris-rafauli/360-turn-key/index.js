@@ -6,8 +6,7 @@ import {connect} from 'dva'
 
 export default
 @connect(({global}) => ({
-    loading:global.loading,
-    pageChange:global.loading
+    loading:global.loading
 }))
 class extends PureComponent{
     constructor(props){
@@ -45,7 +44,7 @@ class extends PureComponent{
             back:true
         },() => {
             setTimeout(() => {
-                router.push('/philosophy')
+                router.push('/ferris-rafauli')
             },700)
         })
     }
@@ -54,22 +53,21 @@ class extends PureComponent{
         const {loading} = this.props
         if(loading) return null
         return(
-            <div id="the-science-is-the-build" className="philosophy-type page">
+            <div id="360-turn-key" className="philosophy-type page">
                 <Bound finish={this.finish} back={back} end={this.leave}>
                     <div className="title-container">
                         <a href="#" onClick={this.back} className="breadcrumb-link">
                             <img src={backIcon} className="breadcrumb-icon" alt="Philosophy" title="Philosophy"/>
-                            Back to Philosophy
+                            Back to Ferris Rafauli
                         </a>
-                        <h1 className="page-title">The Science is the Build</h1>
+                        <h1 className="page-title">360° Turn Key</h1>
                     </div>
                     <div className="content sly-frame">
                         <div className="sly-content" style={{ height: '100%', overflow: 'auto' }}>
-                            <p>Most designers do just that—Design. Ferris Rafauli is unique in that he both Designs and Builds.</p>
-                            <p>Ferris Rafauli’s philosophy is that the art of design alone is not enough. Understanding how to execute the build of a design at the designing stage is critical as it ensures the integrity of the design is fulfilled from conception through to construction. There is no risk of disconnect between the design and the construction.&nbsp; The soul of the design is never compromised.</p>
-                            <p>From the waterproofing of the foundation, to the framing of the structure, to the installation of the final finishes, each stage of construction is executed with precision and perfection.</p>
-                            <p>Ferris Rafauli has built some of the largest and most complicated homes in the country, mastering the science of the build. Clients will benefit from this experience and can be rest assured that their home will be not only designed at the highest level but will also be built with precision and excellence.</p>
-                            <p>The result is the perfect blend between the art of the design and the science of the build. Perfect lines, impeccable craftsmanship and high quality fit and finishes are the hallmarks of Rafauli's work.</p>
+                            <p>Rafauli’s philosophy to designing is one based not only in science but also in art.&nbsp; Each home Rafauli designs is a work of art in that it is original, creative and has the FR flair that he is sought out and well known for, while incorporating all the clients wants and needs.</p>
+                            <p>Rafauli has developed a sterling reputation as an iconic and internationally recognized designer. He brings passion, edge and an unusual bravura in creative conception.&nbsp; He is known for integrating ultra luxury interior designs seamlessly into his house plans with each home he designs and builds allowing the high design to flow seamlessly from exterior through to the interiors.</p>
+                            <p>Every aspect of the ultra luxury design---from awe inspiring elevations and grand floor plans to unique wall and ceiling designs to exotic flooring and fireplace designs, to lavish theatres, indoor pools, indoor basketball courts, wine cellars, kitchens, walk-in closet, man caves, ultra lux garages, indoor bowling alleys and sprawling master ensuites; are not only artistic but are also highly detailed and specified allowing for the ultimate in luxury interiors and precision construction.&nbsp;</p>
+                            <p>Rafauli is not only known for grand homes of outstanding scale and scope but he is also known for obsessive attention to detail. His portfolio of distinctive homes and ultra luxury lifestyle creations has made him the first choice among a sophisticated clientele.</p>
                         </div>
                     </div>
                 </Bound>

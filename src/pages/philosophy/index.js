@@ -5,9 +5,37 @@ import science from '@/assets/images/the_science.jpg'
 import construction from '@/assets/images/construction.jpg'
 import philosophy from '@/assets/images/philosophy.png'
 import router from 'umi/router'
+import {connect} from 'dva'
 
-export default class extends PureComponent{
+export default 
+@connect(({global}) => ({
+    loading:global.loading,
+    pageChange:global.pageChange
+}))
+class extends PureComponent{
     componentDidMount(){
+        const {dispatch} = this.props
+        setTimeout(() => {
+            dispatch({
+                type:'global/handleLoading',
+                payload:false
+            })
+            this.pageIn()
+        },500)
+    }
+    componentDidUpdate(prevProps){
+        if(this.props.pageChange){
+          this.pageOut()
+        }
+      }
+    link = (url) => (e) => {
+        e.preventDefault()
+        this.pageOut()
+        setTimeout(() => {
+            router.push(url)
+        },1300)
+    }
+    pageIn = () => {
         const title = document.getElementsByClassName('page-title-section')[0]
         const content = document.getElementsByClassName('content')[0]
         const link = document.getElementsByClassName('philosophy-type-link')
@@ -18,17 +46,15 @@ export default class extends PureComponent{
             link[1].style = 'transition:opacity 4s;opacity: 1'
         },800)
     }
-    link = (url) => (e) => {
-        e.preventDefault()
+    pageOut = () => {
         const title = document.getElementsByClassName('page-title-section')[0]
         const content = document.getElementsByClassName('content')[0]
         title.style = 'transition:opacity 1s;opacity: 0'
         content.style = 'transition:all 1.5s;opacity: 0;transform:translateY(100px)'
-        setTimeout(() => {
-            router.push(url)
-        },1300)
     }
     render(){
+        const {loading} = this.props
+        if(loading) return null
         return(
             <div id="philosophy" className="philosophy page">
             <div className="static bounding-box">

@@ -891,7 +891,7 @@ p {
 }
 
 .page>.bounding-box>.bounding-box-top-shadow {
-  /* background: url(bounding_box/bounding_box_top_shadow.png) no-repeat center center; */
+  background: url(./assets/images/bounding_box_top_shadow.png) no-repeat center center;
   filter: alpha(opacity=0);
   height: 169px;
   left: -68px;
@@ -905,7 +905,7 @@ p {
 }
 
 .page>.bounding-box>.bounding-box-bottom-shadow {
-  /* background: url(bounding_box/bounding_box_bottom_shadow.png) no-repeat center center; */
+  background: url(./assets/images/bounding_box_bottom_shadow.png) no-repeat center center;
   bottom: -5px;
   filter: alpha(opacity=0);
   height: 168px;

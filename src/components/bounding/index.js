@@ -11,22 +11,21 @@ class extends PureComponent{
         this.state = {
             step:1,
             outStep:1,
-            showBg:true,
             animation: null
         }
         this.animationIn = [
             {className:'bounding-box',time:500,aName:'boxshow',step:1},
-            {className:'bounding-box-top-border',time:200,aName:'border-show',step:2},
-            {className:'bounding-box-bottom-border',time:200,aName:'border-show',step:2},
-            {className:'bounding-box',time:400,aName:'boxhide',step:3},
-            {className:'bounding-box-top-border',time:1000,aName:'top-border-move',step:3},
-            {className:'bounding-box-bottom-border',time:1000,aName:'bottom-border-move',step:3},
-            {className:'bounding-box-bg-container',time:1500,aName:'boundingBG',step:4},
-            {className:'sly-scrollbar',time:400,aName:'boundingBar',step:4},
-            {className:'content',time:400,aName:'boundingContent',step:4},
-            // {className:'title-container',time:500,aName:'boundingTitle',step:4},
-            {className:'bounding-box-top-glow',time:500,aName:'boundingGlowTop',step:4},
-            {className:'bounding-box-bottom-glow',time:500,aName:'boundingGlowBottom',step:4},
+            {className:'bounding-box-top-border',time:200,aName:'border-show',step:1},
+            {className:'bounding-box-bottom-border',time:200,aName:'border-show',step:1},
+            {className:'bounding-box',time:400,aName:'boxhide',step:2},
+            {className:'bounding-box-top-border',time:1000,aName:'top-border-move',step:2},
+            {className:'bounding-box-bottom-border',time:300,aName:'bottom-border-move',step:2},
+            {className:'bounding-box-bg-container',time:1500,aName:'boundingBG',step:3},
+            {className:'sly-scrollbar',time:400,aName:'boundingBar',step:3},
+            {className:'content',time:400,aName:'boundingContent',step:3},
+            // {className:'title-container',time:500,aName:'boundingTitle',step:3},
+            {className:'bounding-box-top-glow',time:500,aName:'boundingGlowTop',step:3},
+            {className:'bounding-box-bottom-glow',time:500,aName:'boundingGlowBottom',step:3},
         ]
         this.animationOut = [
             {className:'content',time:250,aName:'boundingContentOut',step:1},
@@ -44,11 +43,7 @@ class extends PureComponent{
         ]
     }
     componentDidMount(){
-        const {finish} = this.props
         this.pageIn()
-        setTimeout(() => {
-            finish && finish()
-        },1800)
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {pageChange,back} = this.props
@@ -64,27 +59,31 @@ class extends PureComponent{
             step:1,
             outStep:1,
             animation:false,
-            showBg:false
         },() => {
             _this.handleAnimationIn()
         })
     }
     pageOut = () => {
-        const {dispatch,end} = this.props
+        const {end,dispatch} = this.props
         this.handleAnimationOut()
         end && end()
+        dispatch({
+            type:'global/handlePageAnimation',
+            payload:true
+        })
         setTimeout(() => {
             dispatch({
-                type:'global/pageChange',
+                type:'global/handlePageAnimation',
                 payload:false
             })
-        },800)
+        },1000)
     }
     getScale = () => {
         var e, t, n, r, i, s, o, u, a, f;
         return e = !!navigator.userAgent.match(/iPhone/i), t = typeof window.orientation == "number" ? window.orientation : !1, n = t === 0 || t === 180 || t === -180 || t === 360 ? !0 : !1, r = document.documentElement.clientWidth, i = document.documentElement.clientHeight, s = r / 1024, o = i / 672, u = t && n ? s : Math.min(s, o), a = Math.round(u * 100) / 100, a
     }
     handleAnimationIn = () => {
+        const {finish} = this.props
         let step = this.state.step;
         const _this = this
         const animationIn = this.animationIn
@@ -95,10 +94,8 @@ class extends PureComponent{
             })
             return
         }
-        if(step === 3){
-            this.setState({
-                showBg:true
-            })
+        if(step >= maxStep - 1){
+            finish && finish()
         }
         const aData = this.animationIn.filter(item => item.step === step)
         for(let item of aData){
@@ -109,7 +106,7 @@ class extends PureComponent{
             _this.setState({
                 step:step
             },_this.handleAnimationIn())
-        },aData[0]['time'])
+        },aData[aData.length - 1]['time'])
     }
     getMaxStep = (array) => {
         let maxStep = 0

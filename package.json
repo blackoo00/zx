@@ -8,6 +8,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "dva": "^2.6.0-beta.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
